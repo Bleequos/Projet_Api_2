@@ -16,6 +16,12 @@ import java.util.List;
 public class Classe {
 
  /**
+  * Compteur de l'Id des Classes
+  */
+
+ private static int CompteurIdClasses = 0;
+
+ /**
   * identifiant de la classe
   */
 
@@ -147,7 +153,7 @@ public class Classe {
   * @param heure cours modifié via l'heure
   */
 
-public void modifCours(Cours cours,int heure){
+public boolean modifCours(Cours cours,int heure){
   boolean ok = true;
  for (Infos info : infos){
   if (info.getCours().equals(cours)){
@@ -157,6 +163,7 @@ public void modifCours(Cours cours,int heure){
   }
  }
  System.out.println(!ok ? "Modification réussi" : "Pas de cours trouvé");
+ return ok;
 }
 
  /**
@@ -164,7 +171,7 @@ public void modifCours(Cours cours,int heure){
   * @param cours cours à modifier
   * @param enseignant cours modifié via l'enseignant
   */
- public void modifCours(Cours cours,Enseignant enseignant){
+ public boolean modifCours(Cours cours,Enseignant enseignant){
   boolean ok = true;
   for (Infos info : infos){
    if (info.getCours().equals(cours)){
@@ -174,6 +181,7 @@ public void modifCours(Cours cours,int heure){
    }
   }
   System.out.println(!ok ? "Modification réussi" : "Pas de cours trouvé");
+  return ok;
  }
 
  /**
@@ -181,7 +189,7 @@ public void modifCours(Cours cours,int heure){
   * @param cours cours à modifier
   * @param salle cours modifié via la salle
   */
- public void modifCours(Cours cours,Salle salle){
+ public boolean modifCours(Cours cours,Salle salle){
   boolean ok = true;
   for (Infos info : infos){
    if (info.getCours().equals(cours)){
@@ -191,6 +199,7 @@ public void modifCours(Cours cours,int heure){
    }
   }
   System.out.println(!ok ? "Modification réussi" : "Pas de cours trouvé");
+  return ok;
  }
 
 
@@ -326,16 +335,16 @@ public void modifCours(Cours cours,int heure){
  }
 
  /**
-  * constructeur paramétré
-  * @param idClasse identifiant unique de la classe, affecté par la base de
-  * données
+  * Constructeur paramétré
+  *  idClasse identifiant unique de la classe, affecté par la base de
+  * données, increment de 1 à chaque fois grace CompteurIdClasses
   * @param sigle sigle de la classe
   * @param annee année de la classe
   * @param specialite specialité de la classe
   * @param nbreEleves nombre d'eleves de la classe
   */
- public Classe(int idClasse, String sigle, int annee, String specialite, int nbreEleves) {
-  this.idClasse = idClasse;
+ public Classe( String sigle, int annee, String specialite, int nbreEleves) {
+  this.idClasse = CompteurIdClasses++;
   this.sigle = sigle;
   this.annee = annee;
   this.specialite = specialite;
@@ -347,7 +356,7 @@ public void modifCours(Cours cours,int heure){
   * Suppression d'un cours
   * @param cours cours à supprimer
   */
- public void suppCours(Cours cours){
+ public boolean suppCours(Cours cours){
   boolean ok = true;
   for (Infos info : infos) {
    if (info.getCours().equals(cours)) {
@@ -356,6 +365,7 @@ public void modifCours(Cours cours,int heure){
     break;
    }
   }
+  return ok;
  }
 }
 // fallait-il ajouter un boolean pour confirmer la suppression ou pas comme pour ajout car dans l'exmple du cours il y est pas?

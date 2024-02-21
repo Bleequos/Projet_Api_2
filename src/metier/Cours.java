@@ -3,12 +3,18 @@ package metier;
 import java.util.Objects;
 
 /**
- * classe métier de gestion d'un cours
+ * Classe métier de gestion d'un cours
  * @author Ahmed Al robaie
  * @version 1.0
  */
 
 public class Cours {
+
+    /**
+     * Compteur de l'Id des cours
+     */
+
+    private static int CompteurIdCours = 0;
 
     /**
      * Identifiant de cours
@@ -68,15 +74,15 @@ public class Cours {
     }
 
     /**
-     * constructeur paramétré
-     * @param idCours identifiant unique du cours, affecté par la base de
-     * données
+     * Constructeur paramétré
+     *  idCours identifiant unique du cours, affecté par la base de
+     * données, increment de 1 à chaque fois grace CompteurIdCours
      * @param code code du cours
      * @param intitule intitule du cours
      */
 
-    public Cours(int idCours, String code, String intitule) {
-        this.idCours = idCours;
+    public Cours(String code, String intitule) {
+        this.idCours = CompteurIdCours++;
         this.code = code;
         this.intitule = intitule;
     }
@@ -94,7 +100,7 @@ public class Cours {
 
 
     /**
-     * méthode de vérification d'égalité de deux cours
+     * Méthode de vérification d'égalité de deux cours
      * @param o  autre cours
      * @return égalité ou pas
      */

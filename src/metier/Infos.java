@@ -8,7 +8,14 @@ package metier;
  * @see Salle
  */
 
+
+//fallait il créer un idinfos ou un compteur  ici ?
+
+
 public class Infos {
+
+
+
 
     /**
      * Nombre d'heures de cours dans l'info

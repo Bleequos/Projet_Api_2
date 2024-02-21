@@ -12,10 +12,18 @@ import java.time.LocalDate;
 public class Enseignant {
 
 
+
+    /**
+     * Compteur de l'Id des enseignants
+     */
+
+    private static int CompteurIdEnseignant = 0;
+
+
     /**
      * identifiant de l'Enseignant
      */
-    protected int idEnseigant;
+    protected int idEnseignant;
 
 
     /**
@@ -63,11 +71,11 @@ public class Enseignant {
     /**
      * setter id de l'enseignant
      *
-     * @param idEnseigant id de l'enseignant
+     * @param idEnseignant id de l'enseignant
      */
 
-    public void setIdEnseigant(int idEnseigant) {
-        this.idEnseigant = idEnseigant;
+    public void setIdEnseignant(int idEnseignant) {
+        this.idEnseignant = idEnseignant;
     }
 
     /**
@@ -144,10 +152,10 @@ public class Enseignant {
     /**
      * getter IdEnseignant
      *
-     * @return idEnseigant
+     * @return idEnseignant
      */
-    public int getIdEnseigant() {
-        return idEnseigant;
+    public int getIdEnseignant() {
+        return idEnseignant;
     }
 
     /**
@@ -221,9 +229,9 @@ public class Enseignant {
     }
 
     /**
-     * constructeur paramétré
-     * @param idEnseigant identifiant unique de l'enseignant, affecté par la base de
-     * données
+     * Constructeur paramétré
+     * idEnseignant identifiant unique de l'enseignant, affecté par la base de
+     * données, increment de 1 à chaque fois grace CompteurIdEnseignant
      * @param matricule matricule de l'enseignant
      * @param nom nom de l'enseignant
      * @param prenom prenom de l'enseignant
@@ -233,8 +241,8 @@ public class Enseignant {
      * @param dateEngag date d'engagement de l'enseignant
      */
 
-    public Enseignant(int idEnseigant, String matricule, String nom, String prenom, String tel, int chargeSem, BigDecimal salaireMensu, LocalDate dateEngag) {
-        this.idEnseigant = idEnseigant;
+    public Enseignant( String matricule, String nom, String prenom, String tel, int chargeSem, BigDecimal salaireMensu, LocalDate dateEngag) {
+        this.idEnseignant = CompteurIdEnseignant++;
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;

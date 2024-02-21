@@ -13,6 +13,14 @@ import java.util.List;
 
 public class Salle {
 
+
+
+    /**
+     * Compteur de l'Id de Salle
+     */
+
+    private static int CompteurIdSalle = 0;
+
     /**
      * identifiant de la salle
      */
@@ -97,15 +105,15 @@ public class Salle {
     }
 
     /**
-     * constructeur paramétré
-     * @param idSalle identifiant unique de la salle, affecté par la base de
-     * données
+     * Constructeur paramétré
+     * idSalle identifiant unique de la salle, affecté par la base de
+     * données, increment de 1 à chaque fois grace CompteurIdSalle
      * @param sigle sigle de la salle
      * @param capacite capacite de la salle
      */
 
-    public Salle(int idSalle, String sigle, int capacite) {
-        this.idSalle = idSalle;
+    public Salle( String sigle, int capacite) {
+        this.idSalle = CompteurIdSalle++;
         this.sigle = sigle;
         this.capacite = capacite;
     }
