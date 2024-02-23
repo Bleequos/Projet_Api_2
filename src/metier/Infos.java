@@ -9,7 +9,7 @@ package metier;
  */
 
 
-//fallait il créer un idinfos ou un compteur  ici ?
+//fallait-il créer un idinfos ou un compteur ici ?
 
 
 public class Infos {

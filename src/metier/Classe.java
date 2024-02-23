@@ -52,10 +52,10 @@ public class Classe {
  protected int nbreEleves;
 
  /**
-  * Ensemble des salles par default de la classe
+  * Salle par default de la classe
   */
 
- protected List<Salle> salleParDefault = new ArrayList<>();
+ protected Salle salleParDefault;
 
  /**
   * Ensemble des infos concernant la classe
@@ -70,9 +70,8 @@ public class Classe {
 
  public int nbreHeuresTot(){
   int HeuresTot=0;
-  int i=0;
   for(Infos info : infos){
-   HeuresTot=HeuresTot+infos.get(i).getNbreHeures();
+   HeuresTot=HeuresTot+info.getNbreHeures();
   }
   return HeuresTot;
  }
@@ -96,9 +95,7 @@ public class Classe {
  public ArrayList<SallesetHeures> listeSallesetHeures(){
   ArrayList<SallesetHeures> liste = new ArrayList<>();
   for(Infos info : infos){
-   for(Salle salle : salleParDefault){
-    liste.add(new SallesetHeures(info.getNbreHeures(),salle) );
-   }
+   liste.add(new SallesetHeures(info.getNbreHeures(),info.getSalle()));
   }
   return liste;
  }
@@ -119,11 +116,11 @@ public class Classe {
 
  /**
   * Vérification de la capacité d'une classe
-  * @return true ou false si il y a de place ou pas
+  * @return true ou false s'il y a de place ou pas
   */
  public boolean salleCapaciteOK(Salle salle){
   return nbreEleves <= salle.capacite;
- }//utilisation de chatpgt car voulais reduire le if en condionnel mais au final c'etait pas nécessaire
+ }//utilisation de chatpgt car voulait reduire l'if en condionnel mais au final c'etait pas nécessaire
 
 
  /**
@@ -133,7 +130,7 @@ public class Classe {
   * @return ajout effectué ou pas
   */
  public boolean addCours(Cours cours,int heure){
-  if (infos.indexOf(new Infos(heure, cours)) != -1) {    // j'aurais pu utiliser contains aussi mais on l'a pas appris
+  if (infos.indexOf(new Infos(heure, cours)) != -1) {    // j'aurais pu utiliser contains aussi, mais on ne l'a pas appris
    System.out.println("Le cours est déjà présent dans la liste.");
    return false;
   }
@@ -141,9 +138,9 @@ public class Classe {
    infos.add(new Infos(heure, cours));
    return true;
  }
- } // j'ai utiliser le equals sur le code et l'id mais ne suis pas sur
- //je me suis aidé de chatgpt ici je savais plus faire indexof
- //fallait il rajouter comme vous true or false
+ } // j'ai utilisé l'equals sur le code et l'id, mais ne suis pas sûr
+ //je me suis aidé de chatgpt ici, je savais plus faire indexof
+ //fallait-il rajouter comme vous true or false
 
 
 
@@ -154,17 +151,18 @@ public class Classe {
   */
 
 public boolean modifCours(Cours cours,int heure){
-  boolean ok = true;
- for (Infos info : infos){
-  if (info.getCours().equals(cours)){
-   info.setNbreHeures(heure);
-   ok=false;
-   break;
+  int ref= infos.indexOf(cours);
+  if(ref != -1){
+   infos.get(ref).setNbreHeures(heure);
+   System.out.println("Modification réussi");
+   return true;
   }
- }
- System.out.println(!ok ? "Modification réussi" : "Pas de cours trouvé");
- return ok;
+  else{
+   System.out.println("Cours non trouvé");
+   return false;
+  }
 }
+//cours labo 5 ou 6 selon la classe en api 1
 
  /**
   * Modification d'un cours via l'enseignant
@@ -172,16 +170,16 @@ public boolean modifCours(Cours cours,int heure){
   * @param enseignant cours modifié via l'enseignant
   */
  public boolean modifCours(Cours cours,Enseignant enseignant){
-  boolean ok = true;
-  for (Infos info : infos){
-   if (info.getCours().equals(cours)){
-    info.setEnseignant(enseignant);
-    ok=false;
-    break;
-   }
+  int ref= infos.indexOf(cours);
+  if(ref != -1){
+   infos.get(ref).setEnseignant(enseignant);
+   System.out.println("Modification réussi");
+   return true;
   }
-  System.out.println(!ok ? "Modification réussi" : "Pas de cours trouvé");
-  return ok;
+  else{
+   System.out.println("Cours non trouvé");
+   return false;
+  }
  }
 
  /**
@@ -190,16 +188,16 @@ public boolean modifCours(Cours cours,int heure){
   * @param salle cours modifié via la salle
   */
  public boolean modifCours(Cours cours,Salle salle){
-  boolean ok = true;
-  for (Infos info : infos){
-   if (info.getCours().equals(cours)){
-    info.setSalle(salle);
-    ok=false;
-    break;
-   }
+  int ref= infos.indexOf(cours);
+  if(ref != -1){
+   infos.get(ref).setSalle(salle);
+   System.out.println("Modification réussi");
+   return true;
   }
-  System.out.println(!ok ? "Modification réussi" : "Pas de cours trouvé");
-  return ok;
+  else{
+   System.out.println("Cours non trouvé");
+   return false;
+  }
  }
 
 
@@ -252,14 +250,14 @@ public boolean modifCours(Cours cours,int heure){
  }
 
  /**
-  * Getter Liste de salle pardefault
+  * Getter de la salle par default de la classe
   *
   * @return salleParDefault
   */
- public List<Salle> getSalleParDefault() {
+
+ public Salle getSalleParDefault() {
   return salleParDefault;
  }
-
 
  /**
   * setter Id de la classe
@@ -307,14 +305,16 @@ public boolean modifCours(Cours cours,int heure){
  }
 
  /**
-  * Setter une salle par default dans la liste
+  * Setter de la salle par default de la classe
   *
-  * @param salleParDefault une salle par default dans la liste
+  * @param salleParDefault une salle par default de la classe
   */
- public void setSalleParDefault(List<Salle> salleParDefault) {
+
+ public void setSalleParDefault(Salle salleParDefault) {
   this.salleParDefault = salleParDefault;
  }
- //pas sur de la documentation pour la salle par default
+
+//pas sur de la documentation pour la salle par default
  /**
   * Getter liste d'info de la classe
   *
@@ -368,5 +368,5 @@ public boolean modifCours(Cours cours,int heure){
   return ok;
  }
 }
-// fallait-il ajouter un boolean pour confirmer la suppression ou pas comme pour ajout car dans l'exmple du cours il y est pas?
+// fallait-il ajouter un boolean pour confirmer la suppression ou pas comme pour ajout, car dans l'exmple du cours, il n'y est pas ?
 //meme question pour les modifications
