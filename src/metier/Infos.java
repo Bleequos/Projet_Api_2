@@ -1,5 +1,7 @@
 package metier;
 
+import java.util.Objects;
+
 /**
  * Classe métier de gestion d'Info
  * @author Ahmed Al robaie
@@ -149,5 +151,18 @@ public class Infos {
 
     public Cours getCours() {
         return cours;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Infos infos = (Infos) o;
+        return nbreHeures == infos.nbreHeures && Objects.equals(cours, infos.cours);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nbreHeures, cours);
     }
 }

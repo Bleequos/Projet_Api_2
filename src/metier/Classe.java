@@ -151,16 +151,16 @@ public class Classe {
   */
 
 public boolean modifCours(Cours cours,int heure){
-  int ref= infos.indexOf(cours);
-  if(ref != -1){
-   infos.get(ref).setNbreHeures(heure);
-   System.out.println("Modification réussi");
-   return true;
+ boolean ok = false;
+ for (Infos info : infos){
+  if (info.getCours().equals(cours)){
+   info.setNbreHeures(heure);
+   ok=true;
+   break;
   }
-  else{
-   System.out.println("Cours non trouvé");
-   return false;
-  }
+ }
+ System.out.println(ok ? "Modification réussie" : "Pas de cours trouvé");
+ return ok;
 }
 //cours labo 5 ou 6 selon la classe en api 1
 
@@ -170,16 +170,16 @@ public boolean modifCours(Cours cours,int heure){
   * @param enseignant cours modifié via l'enseignant
   */
  public boolean modifCours(Cours cours,Enseignant enseignant){
-  int ref= infos.indexOf(cours);
-  if(ref != -1){
-   infos.get(ref).setEnseignant(enseignant);
-   System.out.println("Modification réussi");
-   return true;
+  boolean ok = false;
+  for (Infos info : infos){
+   if (info.getCours().equals(cours)){
+    info.setEnseignant(enseignant);
+    ok=true;
+    break;
+   }
   }
-  else{
-   System.out.println("Cours non trouvé");
-   return false;
-  }
+  System.out.println(ok ? "Modification réussie" : "Pas de cours trouvé");
+  return ok;
  }
 
  /**
@@ -188,16 +188,16 @@ public boolean modifCours(Cours cours,int heure){
   * @param salle cours modifié via la salle
   */
  public boolean modifCours(Cours cours,Salle salle){
-  int ref= infos.indexOf(cours);
-  if(ref != -1){
-   infos.get(ref).setSalle(salle);
-   System.out.println("Modification réussi");
-   return true;
+  boolean ok = false;
+  for (Infos info : infos){
+   if (info.getCours().equals(cours)){
+    info.setSalle(salle);
+    ok=true;
+    break;
+   }
   }
-  else{
-   System.out.println("Cours non trouvé");
-   return false;
-  }
+  System.out.println(ok ? "Modification réussie" : "Pas de cours trouvé");
+  return ok;
  }
 
 
@@ -357,16 +357,17 @@ public boolean modifCours(Cours cours,int heure){
   * @param cours cours à supprimer
   */
  public boolean suppCours(Cours cours){
-  boolean ok = true;
+  boolean ok = false;
   for (Infos info : infos) {
    if (info.getCours().equals(cours)) {
     infos.remove(info);
-    ok = false;
+    ok = true;
     break;
    }
   }
+  System.out.println(ok ? "Suppression réussie" : "Pas de cours trouvé");
   return ok;
  }
 }
-// fallait-il ajouter un boolean pour confirmer la suppression ou pas comme pour ajout, car dans l'exmple du cours, il n'y est pas ?
+// fallait-il ajouter un boolean pour confirmer la suppression ou pas comme pour ajout, car dans l'exemple du cours, il n'y est pas ?
 //meme question pour les modifications

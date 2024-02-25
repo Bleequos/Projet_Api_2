@@ -111,8 +111,6 @@ public class Cours {
         Cours cours = (Cours) o;
         return idCours == cours.idCours && Objects.equals(code, cours.code);
     }
-
-
     /**
      * Calcul du hashcode du cours
      * @return hashcode
