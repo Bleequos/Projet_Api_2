@@ -371,3 +371,8 @@ public boolean modifCours(Cours cours,int heure){
 }
 // fallait-il ajouter un boolean pour confirmer la suppression ou pas comme pour ajout, car dans l'exemple du cours, il n'y est pas ?
 //meme question pour les modifications
+
+
+
+
+

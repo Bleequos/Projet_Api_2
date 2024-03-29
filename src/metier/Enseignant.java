@@ -56,6 +56,20 @@ public class Enseignant {
     protected int chargeSem;
 
 
+    @Override
+    public String toString() {
+        return "Enseignant{" +
+                "idEnseignant=" + idEnseignant +
+                ", matricule='" + matricule + '\'' +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", tel='" + tel + '\'' +
+                ", chargeSem=" + chargeSem +
+                ", salaireMensu=" + salaireMensu +
+                ", dateEngag=" + dateEngag +
+                '}';
+    }
+
     /**
      * Salaire mensuel de l'Enseignant
      */
@@ -67,6 +81,17 @@ public class Enseignant {
      */
 
     protected LocalDate dateEngag;
+
+    public Enseignant(int idEnseignant, String matricule, String nom, String prenom, String tel, int chargeSem, BigDecimal salaireMensu, LocalDate dateEngag) {
+        this.idEnseignant = idEnseignant;
+        this.matricule = matricule;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.tel = tel;
+        this.chargeSem = chargeSem;
+        this.salaireMensu = salaireMensu;
+        this.dateEngag = dateEngag;
+    }
 
     /**
      * setter id de l'enseignant
