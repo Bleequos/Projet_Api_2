@@ -1,3 +1,5 @@
+package demodb;
+
 import metier.Enseignant;
 import myconnections.DBConnection;
 import java.math.BigDecimal;
