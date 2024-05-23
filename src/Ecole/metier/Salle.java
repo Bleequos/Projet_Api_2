@@ -1,4 +1,4 @@
-package metier;
+package Ecole.metier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +102,12 @@ public class Salle {
 
     public int getCapacite() {
         return capacite;
+    }
+
+    public Salle(int idSalle, String sigle, int capacite) {
+        this.idSalle = idSalle;
+        this.sigle = sigle;
+        this.capacite = capacite;
     }
 
     /**

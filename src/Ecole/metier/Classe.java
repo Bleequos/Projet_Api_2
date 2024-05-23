@@ -1,6 +1,4 @@
-package metier;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+package Ecole.metier;
 import java.util.ArrayList;
 import java.util.List;
 

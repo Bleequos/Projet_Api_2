@@ -1,6 +1,7 @@
 package mvc.view;
 
-import metier.Enseignant;
+import Ecole.metier.Enseignant;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -25,15 +26,15 @@ public class EnseignantViewConsole extends EnseignantAbstractView {
 
 
     public void menu(){
-        update(EnseignantController.getAll());
+        update(enseignantController.getAll());
         do{
-            int ch = choixListe(Arrays.asList("ajout", "retrait", "rechercher", "modifier", "fin"));
+           int ch = choixListe(Arrays.asList("ajout", "retrait", "rechercher", "modifier", "fin"));
 
             switch(ch){
                 case 1: ajouter();
-                    break;
+                        break;
                 case 2 : retirer();
-                    break;
+                        break;
                 case 3: rechercher();
                     break;
                 case 4 : modifier();
@@ -46,32 +47,31 @@ public class EnseignantViewConsole extends EnseignantAbstractView {
 
 
     private void modifier() {
-        int nl = choixElt(lp);
-
-        Enseignant ens = lp.get(nl-1);
-        String matricule= modifyIfNotBlank("matricule de enseignant",ens.getMatricule());
-        String nom = modifyIfNotBlank("nom de enseignant",ens.getNom());
-        String prenom = modifyIfNotBlank("Prenom de enseignant",""+ens.getPrenom());
-        String tel = modifyIfNotBlank("telephone de enseignant",""+ens.getTel());
-        int chargesem = Integer.parseInt(modifyIfNotBlank("charge semaine de enseignant",""+ens.getChargeSem()));
-        BigDecimal salairemensuel= BigDecimal.valueOf(Long.parseLong(modifyIfNotBlank("stock min",""+ens.getSalaireMensu())));
-        LocalDate dateEngagement= LocalDate.parse(modifyIfNotBlank("telephone de enseignant",""+ens.getDateEngag()));
-        Enseignant ensmaj =  EnseignantController.update(new Enseignant(ens.getIdEnseignant(),matricule,nom,prenom,tel,chargesem,salairemensuel,dateEngagement));
-        if(ensmaj==null) affMsg("mise à jour infructueuse");
-        else affMsg("mise à jour effectuée : "+ensmaj);
+        int nl = choixElt(le);
+            Enseignant en = le.get(nl-1);
+            String matricule= modifyIfNotBlank("numéro de matricule",en.getMatricule());
+            String nom = modifyIfNotBlank("nom",en.getNom());
+            String prenom = modifyIfNotBlank("prenom",en.getPrenom());
+            String tel = modifyIfNotBlank("numéro de téléphone",en.getTel());
+            int chargesem = Integer.parseInt(modifyIfNotBlank("Charge de la semaine",""+en.getChargeSem()));
+            BigDecimal salairemensuel = new BigDecimal(modifyIfNotBlank("Salaire mensuel",""+en.getSalaireMensu()));
+            LocalDate dateEngagement = LocalDate.parse(modifyIfNotBlank("date d'engagement",""+en.getDateEngag()));
+            Enseignant enmaj =  enseignantController.update(new Enseignant(en.getIdEnseignant(),matricule,nom,prenom,tel,chargesem,salairemensuel,dateEngagement));
+           if(enmaj==null) affMsg("mise à jour infructueuse");
+           else affMsg("mise à jour effectuée : "+enmaj);
     }
 
     private void rechercher() {
-        System.out.println("idProduit : ");
-        int idProduit = sc.nextInt();
-        EnseignantController.search(idProduit);
+        System.out.println("idEnseignant : ");
+        int idEnseignant = sc.nextInt();
+        enseignantController.search(idEnseignant);
     }
 
     private void retirer() {
 
-        int nl = choixElt(lp);
-        Enseignant pr = lp.get(nl-1);
-        boolean ok = EnseignantController.removeEnseignant(pr);
+    int nl = choixElt(le);
+        Enseignant en = le.get(nl-1);
+      boolean ok = enseignantController.removeEnseignant(en);
         if(ok) affMsg("produit effacé");
         else affMsg("produit non effacé");
     }
@@ -97,18 +97,17 @@ public class EnseignantViewConsole extends EnseignantAbstractView {
         System.out.println("jour : ");
         int jour = sc.nextInt();
         LocalDate dateEngagement = LocalDate.of(annee, mois, jour);
-        Enseignant Ens = EnseignantController.addEnseignant(new Enseignant(0,matricule,nom,prenom,tel,chargesem,salairemensuel,dateEngagement)) ;
-        if(Ens!=null) affMsg("création de :"+Ens);
+        Enseignant en = enseignantController.addEnseignant(new Enseignant(0,matricule,nom,prenom,tel,chargesem,salairemensuel,dateEngagement)) ;
+        if(en!=null) affMsg("création de :"+en);
         else affMsg("erreur de création");
-    }
+     }
 
     @Override
     public Enseignant selectionner(){
-        update(EnseignantController.getAll());
-        int nl =  choixListe(lp);
-        Enseignant ens = lp.get(nl-1);
-        return ens;
-    }
+         update(enseignantController.getAll());
+         int nl =  choixListe(le);
+         Enseignant en = le.get(nl-1);
+            return en;
+        }
 }
-
 

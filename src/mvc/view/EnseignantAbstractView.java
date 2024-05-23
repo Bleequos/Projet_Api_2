@@ -1,6 +1,6 @@
 package mvc.view;
 
-import metier.Enseignant;
+import Ecole.metier.Enseignant;
 import mvc.controller.EnseignantController;
 import mvc.observer.Observer;
 
@@ -8,11 +8,11 @@ import java.util.List;
 
 public abstract class EnseignantAbstractView implements Observer {
 
-    protected EnseignantController EnseignantController;
-    protected List<Enseignant> lp;
+    protected EnseignantController enseignantController;
+    protected List<Enseignant> le;
 
-    public void setController(EnseignantController EnseignantController){
-        this.EnseignantController=EnseignantController;
+    public void  setController(EnseignantController enseignantController){
+        this.enseignantController=enseignantController;
     }
     public abstract void affMsg(String msg);
 
@@ -23,10 +23,9 @@ public abstract class EnseignantAbstractView implements Observer {
     public abstract void affList(List l);
 
     @Override
-    public void update(List lp) {
-        this.lp = lp;
-        affList(lp);
+    public void update(List le) {
+        this.le = le;
+        affList(le);
     }
 
 }
-

@@ -1,4 +1,4 @@
-package metier;
+package Ecole.metier;
 
 public class SallesetHeures {
 

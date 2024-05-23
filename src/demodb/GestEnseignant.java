@@ -1,6 +1,6 @@
 package demodb;
 
-import metier.Enseignant;
+import Ecole.metier.Enseignant;
 import myconnections.DBConnection;
 import java.math.BigDecimal;
 import java.sql.*;

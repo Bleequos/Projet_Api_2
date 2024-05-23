@@ -1,9 +1,11 @@
 package mvc.controller;
 
-import metier.Enseignant;
+import Ecole.metier.Enseignant;
 import mvc.model.DAOEnseignant;
 import mvc.view.EnseignantAbstractView;
+
 import java.util.List;
+
 public class EnseignantController {
     private DAOEnseignant model;
     private EnseignantAbstractView view;
@@ -18,19 +20,21 @@ public class EnseignantController {
         return model.getEnseignants();
     }
     public Enseignant addEnseignant(Enseignant enseignant) {
-        return  model.addEnseignant(enseignant);
+       return  model.addEnseignant(enseignant);
     }
 
-    public boolean removeEnseignant(Enseignant enseignant) {
-        return model.removeEnseignant(enseignant);
+    public boolean removeEnseignant(Enseignant en) {
+        return model.removeEnseignant(en);
     }
 
     public Enseignant update(Enseignant enseignant) {
         return model.updateEnseignant(enseignant);
 
     }
+
     public Enseignant search(int idEnseignant) {
-        return  model.readEnseignant(idEnseignant);
+       return  model.readEnseignant(idEnseignant);
     }
 
 }
+
