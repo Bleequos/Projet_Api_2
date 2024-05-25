@@ -73,6 +73,8 @@ public class Infos {
     }
 
 
+
+
     /**
      * Setter Salle de cours de l'info
      *

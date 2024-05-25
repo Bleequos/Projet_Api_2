@@ -112,6 +112,15 @@ public class Classe {
  }
 
 
+ public Classe(int idClasse, String sigle, int annee, String specialite, int nbreEleves, Salle salleParDefault) {
+  this.idClasse = idClasse;
+  this.sigle = sigle;
+  this.annee = annee;
+  this.specialite = specialite;
+  this.nbreEleves = nbreEleves;
+  this.salleParDefault = salleParDefault;
+ }
+
  /**
   * Vérification de la capacité d'une classe
   * @return true ou false s'il y a de place ou pas
