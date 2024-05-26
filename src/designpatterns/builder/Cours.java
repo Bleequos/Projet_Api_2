@@ -1,5 +1,4 @@
-package Ecole.metier;
-
+package designpatterns.builder;
 import java.util.Objects;
 
 /**
@@ -125,20 +124,6 @@ public class Cours {
     @Override
     public int hashCode() {
         return Objects.hash(idCours, code);
-    }
-
-    /**
-     * méthode toString
-     * @return informations complètes
-     */
-
-    @Override
-    public String toString() {
-        return "Cours{" +
-                "idCours=" + idCours +
-                ", code='" + code + '\'' +
-                ", intitule='" + intitule + '\'' +
-                '}';
     }
 
     /**

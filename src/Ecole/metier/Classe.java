@@ -267,6 +267,23 @@ public boolean modifCours(Cours cours,int heure){
  }
 
  /**
+  * méthode toString
+  * @return informations complètes
+  */
+
+ @Override
+ public String toString() {
+  return "Classe{" +
+          "idClasse=" + idClasse +
+          ", sigle='" + sigle + '\'' +
+          ", annee=" + annee +
+          ", specialite='" + specialite + '\'' +
+          ", nbreEleves=" + nbreEleves +
+          ", salleParDefault=" + salleParDefault +
+          '}';
+ }
+
+ /**
   * setter Id de la classe
   *
   * @param idClasse id de classe

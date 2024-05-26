@@ -1,4 +1,15 @@
-package Ecole.metier;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package designpatterns.builder;
+
+
+
+import Ecole.metier.Cours;
+import Ecole.metier.Enseignant;
+import Ecole.metier.Salle;
 
 import java.util.Objects;
 
@@ -6,8 +17,8 @@ import java.util.Objects;
  * Classe métier de gestion d'Info
  * @author Ahmed Al robaie
  * @version 1.0
- * @see Cours
- * @see Salle
+ * @see Ecole.metier.Cours
+ * @see Ecole.metier.Salle
  */
 
 
@@ -83,21 +94,6 @@ public class Infos {
 
     public void setSalle(Salle salle) {
         this.salle = salle;
-    }
-
-    /**
-     * méthode toString
-     * @return informations complètes
-     */
-
-    @Override
-    public String toString() {
-        return "Infos{" +
-                "nbreHeures=" + nbreHeures +
-                ", cours=" + cours +
-                ", salle=" + salle +
-                ", enseignant=" + enseignant +
-                '}';
     }
 
     /**
@@ -182,4 +178,20 @@ public class Infos {
     public int hashCode() {
         return Objects.hash(nbreHeures, cours);
     }
+
+    /**
+     * méthode toString
+     * @return informations complètes
+     */
+
+    @Override
+    public String toString() {
+        return "Infos{" +
+                "nbreHeures=" + nbreHeures +
+                ", cours=" + cours +
+                ", salle=" + salle +
+                ", enseignant=" + enseignant +
+                '}';
+    }
 }
+

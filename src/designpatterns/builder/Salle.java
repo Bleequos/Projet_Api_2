@@ -1,4 +1,6 @@
-package Ecole.metier;
+package designpatterns.builder;
+
+import Ecole.metier.Classe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +126,6 @@ public class Salle {
         this.capacite = capacite;
     }
 
-
     /**
      * méthode toString
      * @return informations complètes
@@ -138,3 +139,4 @@ public class Salle {
                 '}';
     }
 }
+    
