@@ -13,11 +13,11 @@ import java.util.Set;
  *
  * @author Michel
  */
-public class Categorie extends Element {
+public class Section extends Element {
     private String nom;
     private Set<Element> elts=new HashSet<>();
-    
-    public Categorie(int id,String nom){
+
+    public Section(int id, String nom){
         super(id);
         this.nom=nom;
     }
@@ -29,16 +29,16 @@ public class Categorie extends Element {
         for(Element e:elts){
             aff.append(e+"\n");
         }
-        return aff+"valeur totale " +nom +" = "+valStock()+"\n";
+        return aff+"valeur totale du nombre d'eleve en  " +nom +" = "+TotNbrEleves()+"\n";
     }
 
   
 
     @Override
-    public float valStock() {
-        float somme=0;
+    public int TotNbrEleves() {
+        int somme=0;
        for(Element pc:elts){
-           somme+=pc.valStock();
+           somme+=pc.TotNbrEleves();
        }
        return somme;
     }
@@ -46,5 +46,5 @@ public class Categorie extends Element {
     public Set<Element> getElts() {
         return elts;
     }
-    
+
 }

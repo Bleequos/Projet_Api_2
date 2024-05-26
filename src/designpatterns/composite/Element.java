@@ -7,7 +7,7 @@ package designpatterns.composite;
 
 /**
  *
- * @author Michel
+ * @author Ahmed Al Robaie
  */
 public abstract class Element {
     private int id;
@@ -19,7 +19,7 @@ public abstract class Element {
         return id;
     }
     
-      public abstract float valStock();
+      public abstract int TotNbrEleves();
 
     @Override
     public int hashCode() {

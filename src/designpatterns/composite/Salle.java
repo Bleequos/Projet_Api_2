@@ -1,4 +1,6 @@
-package Ecole.metier;
+package designpatterns.composite;
+
+import Ecole.metier.Classe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,15 +139,4 @@ public class Salle {
                 ", capacite=" + capacite +
                 '}';
     }
-
-    public List<Classe> ClassesSalleDefaut() {
-        List<Classe> classesParDefaut = new ArrayList<>();
-        for (Classe classe : listeClasse) {
-            if (classe.getSalleParDefault().equals(this)) {
-                classesParDefaut.add(classe);
-            }
-        }
-        return classesParDefaut;
-    }
-
 }

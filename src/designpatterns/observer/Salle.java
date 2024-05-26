@@ -1,4 +1,6 @@
-package Ecole.metier;
+package designpatterns.observer;
+
+import Ecole.metier.Classe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +120,7 @@ public class Salle {
      * @param capacite capacite de la salle
      */
 
-    public Salle( String sigle, int capacite) {
+    public Salle(String sigle, int capacite) {
         this.idSalle = CompteurIdSalle++;
         this.sigle = sigle;
         this.capacite = capacite;
@@ -137,15 +139,4 @@ public class Salle {
                 ", capacite=" + capacite +
                 '}';
     }
-
-    public List<Classe> ClassesSalleDefaut() {
-        List<Classe> classesParDefaut = new ArrayList<>();
-        for (Classe classe : listeClasse) {
-            if (classe.getSalleParDefault().equals(this)) {
-                classesParDefaut.add(classe);
-            }
-        }
-        return classesParDefaut;
-    }
-
 }
