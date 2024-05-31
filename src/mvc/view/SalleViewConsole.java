@@ -59,7 +59,27 @@ public class SalleViewConsole extends SalleAbstractView {
     private void rechercher() {
         System.out.println("idSalle : ");
         int idSalle = sc.nextInt();
-        salleController.search(idSalle);
+        Salle sa=salleController.search(idSalle);
+        if(sa==null) affMsg("recherche infructueuse");
+        else {
+            affMsg(sa.toString());
+            special(sa);
+        }
+    }
+
+    private void special(Salle sa) {
+
+        do {
+            int ch = choixListe(Arrays.asList("liste des classes dont la salle par défaut est cette salle", "menu principal"));
+            if(ch==2) return;
+            List l =   switch (ch) {
+                case 1 ->  salleController.ClassesSalleDefaut(sa);
+
+                default -> null;
+            };
+            if(l==null || l.isEmpty()) affMsg("aucun élément trouvée");
+            else affList(l);
+        } while (true);
     }
 
     private void retirer() {
@@ -75,11 +95,11 @@ public class SalleViewConsole extends SalleAbstractView {
         System.out.print("sigle de la salle :");
         String sigle = sc.nextLine();
         System.out.print("capacite de la salle :");
-        int capacite = sc.nextInt();
-        Salle sa = salleController.addSalle(new Salle(0,sigle,capacite)) ;
+        int capacite = Integer.parseInt(sc.nextLine());
+        Salle sa = salleController.addSalle(new Salle(0,sigle,capacite));
         if(sa!=null) affMsg("création de :"+sa);
         else affMsg("erreur de création");
-     }
+    }
 
     @Override
     public Salle selectionner(){

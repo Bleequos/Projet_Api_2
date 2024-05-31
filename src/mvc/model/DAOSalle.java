@@ -1,5 +1,6 @@
 package mvc.model;
 
+import Ecole.metier.Classe;
 import mvc.observer.Subject;
 import Ecole.metier.Salle;
 
@@ -15,4 +16,6 @@ public abstract class DAOSalle extends Subject {
    public abstract Salle readSalle(int idSalle);
 
     public abstract List<Salle> getSalles();
+
+    public abstract List<Classe> ClassesSalleDefaut(Salle salle);
 }

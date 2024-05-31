@@ -64,16 +64,19 @@ public class EnseignantViewConsole extends EnseignantAbstractView {
     private void rechercher() {
         System.out.println("idEnseignant : ");
         int idEnseignant = sc.nextInt();
-        enseignantController.search(idEnseignant);
+        Enseignant ens=enseignantController.search(idEnseignant);
+        if(ens==null) affMsg("recherche infructueuse");
+        else {
+            affMsg(ens.toString());
+        }
     }
 
     private void retirer() {
-
     int nl = choixElt(le);
         Enseignant en = le.get(nl-1);
       boolean ok = enseignantController.removeEnseignant(en);
-        if(ok) affMsg("produit effacé");
-        else affMsg("produit non effacé");
+        if(ok) affMsg("Enseignant effacé");
+        else affMsg("Enseignant non effacé");
     }
 
     private void ajouter() {
@@ -87,20 +90,25 @@ public class EnseignantViewConsole extends EnseignantAbstractView {
         String tel = sc.nextLine();
         System.out.print("Charge sem :");
         int chargesem = sc.nextInt();
+        sc.nextLine();
         System.out.print("Salaire mensuel :");
         BigDecimal salairemensuel = BigDecimal.valueOf(sc.nextInt());
+        sc.nextLine();
         System.out.println("date d'engagemenet : ");
         System.out.println("annéee : ");
         int annee = sc.nextInt();
+        sc.nextLine();
         System.out.println("mois : ");
         int mois = sc.nextInt();
+        sc.nextLine();
         System.out.println("jour : ");
         int jour = sc.nextInt();
+        sc.nextLine();
         LocalDate dateEngagement = LocalDate.of(annee, mois, jour);
         Enseignant en = enseignantController.addEnseignant(new Enseignant(0,matricule,nom,prenom,tel,chargesem,salairemensuel,dateEngagement)) ;
         if(en!=null) affMsg("création de :"+en);
         else affMsg("erreur de création");
-     }
+    }
 
     @Override
     public Enseignant selectionner(){

@@ -1,6 +1,7 @@
 package mvc.model;
 
 
+import Ecole.metier.Classe;
 import Ecole.metier.Salle;
 import myconnections.DBConnection;
 
@@ -61,7 +62,7 @@ public class SalleModelDB extends DAOSalle {
 
     @Override
     public boolean removeSalle(Salle salle) {
-        String query = "delete from APISALLE where SIGLE= ?";
+        String query = "delete from APISALLE where IDSALLE= ?";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setInt(1,salle.getIdSalle());
             int n = pstm.executeUpdate();
@@ -76,24 +77,26 @@ public class SalleModelDB extends DAOSalle {
         }
     }
 
+
+
+
     @Override
     public Salle updateSalle(Salle salle) {
-        String query = "update APISALLE set SIGLE=?,set CAPACITE=? where IDSALLE = ?";
+        String query = "UPDATE APISALLE SET SIGLE = ?, CAPACITE = ? WHERE IDSALLE = ?";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setString(1, salle.getSigle());
             pstm.setInt(2, salle.getCapacite());
+            pstm.setInt(3, salle.getIdSalle());
             int n = pstm.executeUpdate();
             notifyObservers();
             if(n!=0) return readSalle(salle.getIdSalle());
             else return null;
 
         } catch (SQLException e) {
-           System.err.println("erreur sql :" + e);
-
+            System.err.println("erreur sql :" + e);
             return null;
         }
     }
-
     @Override
     public Salle readSalle(int idSalle) {
         String query = "select * from APISALLE where IDSALLE = ?";
@@ -137,6 +140,31 @@ public class SalleModelDB extends DAOSalle {
             return null;
         }
     }
+
+
+    @Override
+    public List<Classe> ClassesSalleDefaut(Salle salle){
+        List<Classe> classes = new ArrayList<>();
+        String query = "SELECT * FROM APIClasses_Salles WHERE IDSALLE = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, salle.getIdSalle());
+            ResultSet rs = pstm.executeQuery();
+            while(rs.next()){
+                int idClasse = rs.getInt("IDCLASSE");
+                String sigle = rs.getString("SIGLE");
+                int annee = rs.getInt("ANNEE");
+                String specialite = rs.getString("SPECIALITE");
+                int nbreEleves = rs.getInt("NBREELEVES");
+                Classe classe = new Classe(idClasse, sigle, annee, specialite, nbreEleves, salle);
+                classes.add(classe);
+            }
+        } catch (SQLException e) {
+            System.err.println("erreur sql :"+e);
+        }
+        return classes;
+    }
+
+
 
     @Override
     public List getNotification() {

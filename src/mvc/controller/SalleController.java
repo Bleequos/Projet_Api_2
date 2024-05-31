@@ -1,5 +1,6 @@
 package mvc.controller;
 
+import Ecole.metier.Classe;
 import Ecole.metier.Salle;
 import mvc.model.DAOSalle;
 import mvc.view.SalleAbstractView;
@@ -34,6 +35,10 @@ public class SalleController {
 
     public Salle search(int idSalle) {
        return  model.readSalle(idSalle);
+    }
+
+    public List<Classe> ClassesSalleDefaut(Salle salle) {
+        return model.ClassesSalleDefaut(salle);
     }
 
 }

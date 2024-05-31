@@ -28,7 +28,7 @@ public class EnseignantModelDB extends DAOEnseignant {
     @Override
     public Enseignant addEnseignant(Enseignant enseignant) {
         String query1 = "insert into APIENSEIGNANT(MATRICULE,NOM,PRENOM,TEL,CHARGESEM,SALAIREMENSU,DATEENGAG) values(?,?,?,?,?,?,?)";
-        String query2 = "select IDENSEIGNANT from APIENSEIGNANT where MATRICULE= ?";
+        String query2 = "select IDENSEIGNANT from APIENSEIGNANT where MATRICULE= ? and NOM =? and PRENOM =? and TEL =? ";
         try(PreparedStatement pstm1= dbConnect.prepareStatement(query1);
             PreparedStatement pstm2= dbConnect.prepareStatement(query2);
         ){
@@ -42,6 +42,9 @@ public class EnseignantModelDB extends DAOEnseignant {
             int n = pstm1.executeUpdate();
               if(n==1){
                 pstm2.setString(1,enseignant.getMatricule());
+                pstm2.setString(2,enseignant.getNom());
+                pstm2.setString(3,enseignant.getPrenom());
+                pstm2.setString(4,enseignant.getTel());
                 ResultSet rs= pstm2.executeQuery();
                 if(rs.next()){
                     int IDENSEIGNANT= rs.getInt(1);
@@ -58,7 +61,7 @@ public class EnseignantModelDB extends DAOEnseignant {
               else return null;
 
         } catch (SQLException e) {
-            //System.err.println("erreur sql :"+e);
+            System.err.println("erreur sql :"+e);
 
             return null;
         }
@@ -66,7 +69,7 @@ public class EnseignantModelDB extends DAOEnseignant {
 
     @Override
     public boolean removeEnseignant(Enseignant enseignant) {
-        String query = "delete from APIENSEIGNANT where MATRICULE= ?";
+        String query = "delete from APIENSEIGNANT where IDENSEIGNANT= ?";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setInt(1,enseignant.getIdEnseignant());
             int n = pstm.executeUpdate();
@@ -83,7 +86,7 @@ public class EnseignantModelDB extends DAOEnseignant {
 
     @Override
     public Enseignant updateEnseignant(Enseignant enseignant) {
-        String query = "update APIENSEIGNANT set MATRICULE=?,set NOM=?,set PRENOM=?,set TEL=?,set CHARGESEM=?,set SALAIREMENSU=?,set DATEENGAG=? where IDENSEIGNANT = ?";
+        String query = "update APIENSEIGNANT set MATRICULE=?, NOM=?, PRENOM=?, TEL=?, CHARGESEM=?, SALAIREMENSU=?, DATEENGAG=? where IDENSEIGNANT = ?";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setString(1, enseignant.getMatricule());
             pstm.setString(2, enseignant.getNom());
@@ -92,6 +95,7 @@ public class EnseignantModelDB extends DAOEnseignant {
             pstm.setInt(5,enseignant.getChargeSem());
             pstm.setBigDecimal(6, enseignant.getSalaireMensu());
             pstm.setDate(7, Date.valueOf(enseignant.getDateEngag()));
+            pstm.setInt(8,enseignant.getIdEnseignant());
             int n = pstm.executeUpdate();
             notifyObservers();
             if(n!=0) return readEnseignant(enseignant.getIdEnseignant());
