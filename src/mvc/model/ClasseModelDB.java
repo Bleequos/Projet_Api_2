@@ -290,18 +290,17 @@ public boolean salleCapaciteOK(Classe classe,Salle salle){
         }
     }
 
-    public boolean addCours(Classe classe, Cours cours,int heure){
-        String query = "INSERT INTO APIInfos(nbreHeures,idCours,idSalle,idEnseignant,idClasse) VALUES(?,?,?,?,?)";
+    public boolean addCours(Classe classe, Cours cours, Enseignant enseignant, int heure){
+        String query = "INSERT INTO APIInfos(nbreHeures, idCours, idSalle, idEnseignant, idClasse) VALUES(?,?,?,?,?)";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,heure);
-            pstm.setInt(2,cours.getIdCours());
-            pstm.setInt(3,classe.getSalleParDefault().getIdSalle());
-            pstm.setInt(4,0);
-            pstm.setInt(5,classe.getIdClasse());
+            pstm.setInt(1, heure);
+            pstm.setInt(2, cours.getIdCours());
+            pstm.setInt(3, classe.getSalleParDefault().getIdSalle());
+            pstm.setInt(4, enseignant.getIdEnseignant()); // Use the idEnseignant from the Enseignant object
+            pstm.setInt(5, classe.getIdClasse());
             int n = pstm.executeUpdate();
             notifyObservers();
-            if(n!=0) return true;
-            else return false;
+            return n != 0;
         } catch (SQLException e) {
             System.err.println("erreur sql :"+e);
             return false;
@@ -356,7 +355,7 @@ public boolean salleCapaciteOK(Classe classe,Salle salle){
         }
     }
 
-public boolean suppCours(Classe classe, Cours cours){
+    public boolean suppCours(Classe classe, Cours cours){
         String query = "DELETE FROM APIInfos WHERE idCours = ? AND idClasse = ?";
         try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setInt(1,cours.getIdCours());

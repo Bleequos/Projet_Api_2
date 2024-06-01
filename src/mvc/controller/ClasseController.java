@@ -46,8 +46,8 @@ public class ClasseController {
         return model.salleCapaciteOK(classe,salle);
     }
 
-    public boolean addCours(Classe classe, Cours cours,int heure) {
-        return model.addCours(classe,cours,heure);
+    public boolean addCours(Classe classe, Cours cours,Enseignant enseignant,int heure) {
+        return model.addCours(classe,cours,enseignant,heure);
     }
 
     public boolean modifCours(Classe classe, Cours cours,int heure) {

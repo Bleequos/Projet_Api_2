@@ -13,8 +13,6 @@ public abstract class CoursAbstractView implements Observer {
 
     protected EnseignantAbstractView ev;
 
-
-
     protected SalleAbstractView sv;
     protected List<Cours> lcs;
     public  void setController(CoursController coursController){
@@ -44,5 +42,6 @@ public abstract class CoursAbstractView implements Observer {
         affList(lcs);
     }
 
+    public abstract Cours selectionner();
 
 }

@@ -49,6 +49,8 @@ public class GestEcole {
         csv.setSalleView(sv);
 
         cv.setSalleView(sv);
+        cv.setCoursView(csv);
+        cv.setEnseignantView(ev);
 
         cm.addObserver(cv);
         em.addObserver(ev);

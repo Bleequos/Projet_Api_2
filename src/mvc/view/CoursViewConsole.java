@@ -216,6 +216,14 @@ public class CoursViewConsole extends CoursAbstractView {
         }
     }
 
+    @Override
+    public Cours selectionner() {
+        update(coursController.getAll());
+        int nl = choixListe(lcs);
+        Cours cours = lcs.get(nl - 1);
+        return cours;
+    }
+
  }
 
 

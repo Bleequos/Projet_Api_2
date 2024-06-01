@@ -29,7 +29,7 @@ public abstract class DAOClasse extends Subject {
 
     public abstract boolean salleCapaciteOK(Classe classe,Salle salle);
 
-    public abstract boolean addCours(Classe classe, Cours cours, int heure);
+    public abstract boolean addCours(Classe classe, Cours cours,Enseignant enseignant, int heure);
 
     public abstract boolean modifCours(Classe classe, Cours cours, int heure);
 
