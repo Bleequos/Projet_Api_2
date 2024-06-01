@@ -122,7 +122,8 @@ public class ClasseVueGraph extends ClasseAbstractView {
 
     }
 
-    @Override
+
+
     public Classe selectionner() {
         return null;
     }

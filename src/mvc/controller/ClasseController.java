@@ -38,6 +38,34 @@ public class ClasseController {
           return model.readClasse(idClasse);
     }
 
+    public int nbreHeuresTot(Classe classe) {
+        return model.nbreHeuresTot(classe);
+    }
+
+    public boolean salleCapaciteOK(Classe classe,Salle salle) {
+        return model.salleCapaciteOK(classe,salle);
+    }
+
+    public boolean addCours(Classe classe, Cours cours,int heure) {
+        return model.addCours(classe,cours,heure);
+    }
+
+    public boolean modifCours(Classe classe, Cours cours,int heure) {
+        return model.modifCours(classe,cours,heure);
+    }
+
+    public boolean modifCours(Classe classe, Cours cours,Enseignant enseignant) {
+        return model.modifCours(classe,cours,enseignant);
+    }
+
+    public boolean modifCours(Classe classe, Cours cours,Salle salle) {
+        return model.modifCours(classe,cours,salle);
+    }
+
+    public boolean suppCours(Classe classe,Cours cours){
+        return model.suppCours(classe,cours);
+    }
+
     public List<EnseignantsEtHeures> listeEnseignantsEtHeures(Classe classe) {
         return  model.listeEnseignantsEtHeures(classe);
     }

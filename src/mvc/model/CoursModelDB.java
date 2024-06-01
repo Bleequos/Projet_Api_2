@@ -23,36 +23,31 @@ public class CoursModelDB extends DAOCours {
 
     }
 
+
     @Override
     public Cours addCours(Cours cours) {
-        String query1 = "insert into APICOURS(code,intitule) values(?,?)";
-        String query2 = "select max(IDCOURS) from APICOURS where IDCOURS = ?";
-        try(PreparedStatement pstm1= dbConnect.prepareStatement(query1);
-            PreparedStatement pstm2= dbConnect.prepareStatement(query2);
-        ){
-            pstm1.setString(1,cours.getCode());
-            pstm1.setString(2,cours.getIntitule());
+        String query1 = "INSERT INTO APICOURS(CODE, INTITULE) VALUES(?, ?)";
+        String query2 = "SELECT max(IDCOURS) FROM APICOURS WHERE CODE = ?";
+        try (PreparedStatement pstm1 = dbConnect.prepareStatement(query1);
+             PreparedStatement pstm2 = dbConnect.prepareStatement(query2)) {
+            pstm1.setString(1, cours.getCode());
+            pstm1.setString(2, cours.getIntitule());
             int n = pstm1.executeUpdate();
-              if(n==1){
-                pstm2.setInt(1, cours.getIdCours());
-                ResultSet rs= pstm2.executeQuery();
-                if(rs.next()){
-                    int idcours = rs.getInt(1);
-                     cours.setIdCours(idcours);
+            if (n == 1) {
+                pstm2.setString(1, cours.getCode());
+                ResultSet rs = pstm2.executeQuery();
+                if (rs.next()) {
+                    int IDCOURS = rs.getInt(1);
+                    cours.setIdCours(IDCOURS);
                     notifyObservers();
-                     return cours;
-                }
-                else {
-
-                   System.err.println("record introuvable");
+                    return cours;
+                } else {
+                    System.err.println("record introuvable");
                     return null;
                 }
-            }
-              else return null;
-
+            } else return null;
         } catch (SQLException e) {
-            System.err.println("erreur sql :"+e);
-
+            System.err.println("erreur sql :" + e);
             return null;
         }
     }
@@ -94,7 +89,7 @@ public class CoursModelDB extends DAOCours {
 
     @Override
     public Cours readCours(int idCours) {
-        String query = "SELECT * FROM APIEnseignantSalleCours WHERE IDCOURS = ?";
+        String query = "SELECT * FROM APICours WHERE IDCOURS = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
             pstm.setInt(1, idCours);
             ResultSet rs = pstm.executeQuery();
@@ -102,23 +97,6 @@ public class CoursModelDB extends DAOCours {
                 String code = rs.getString("Code");
                 String intitule = rs.getString("Intitule");
                 Cours cours = new Cours(idCours, code, intitule);
-
-                int idEnseignant = rs.getInt("idEnseignant");
-                String matricule = rs.getString("Matricule");
-                String nom = rs.getString("Nom");
-                String prenom = rs.getString("Prénom");
-                String tel = rs.getString("Tel");
-                int chargesem = rs.getInt("ChargeSem");
-                BigDecimal salaireMensu = rs.getBigDecimal("SalMensu");
-                LocalDate dateEngagement = rs.getDate("Date d'engagement").toLocalDate();
-                Enseignant enseignant = new Enseignant(idEnseignant, matricule, nom, prenom, tel, chargesem, salaireMensu, dateEngagement);
-
-                int idSalle = rs.getInt("IDSALLE");
-                String sigle = rs.getString("SIGLE");
-                int capacite = rs.getInt("CAPACITE");
-                Salle salle = new Salle(idSalle, sigle, capacite);
-
-
                 return cours;
             } else {
                 return null;

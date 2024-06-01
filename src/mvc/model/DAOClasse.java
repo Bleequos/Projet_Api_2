@@ -25,4 +25,18 @@ public abstract class DAOClasse extends Subject {
 
     public abstract List<Infos> listeInfos(Classe classe);
 
+    public abstract int nbreHeuresTot(Classe classe);
+
+    public abstract boolean salleCapaciteOK(Classe classe,Salle salle);
+
+    public abstract boolean addCours(Classe classe, Cours cours, int heure);
+
+    public abstract boolean modifCours(Classe classe, Cours cours, int heure);
+
+    public abstract boolean modifCours(Classe classe, Cours cours, Enseignant enseignant);
+
+    public abstract boolean modifCours(Classe classe, Cours cours, Salle salle);
+
+    public abstract boolean suppCours(Classe classe, Cours cours);
+
 }

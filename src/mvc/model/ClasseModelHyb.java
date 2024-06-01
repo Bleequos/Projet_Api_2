@@ -253,6 +253,121 @@ public class ClasseModelHyb extends DAOClasse{
             return null;
         }
     }
+
+    public int nbreHeuresTot(Classe classe){
+        String query = "SELECT SUM(nbreHeures) FROM APIInfos WHERE idClasse = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,classe.getIdClasse());
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+            else return 0;
+        } catch (SQLException e) {
+            System.err.println("erreur sql :"+e);
+            return 0;
+        }
+    }
+
+    public boolean salleCapaciteOK(Classe classe,Salle salle){
+        String query = "SELECT capacite FROM APISalle WHERE idSalle = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,salle.getIdSalle());
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                int capacite = rs.getInt(1);
+                if(capacite>=classe.getNbreEleves()) return true;
+                else return false;
+            }
+            else return false;
+        } catch (SQLException e) {
+            System.err.println("erreur sql :"+e);
+            return false;
+        }
+    }
+
+    public boolean addCours(Classe classe, Cours cours,int heure){
+        String query = "INSERT INTO APIInfos(nbreHeures,idCours,idSalle,idEnseignant,idClasse) VALUES(?,?,?,?,?)";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,heure);
+            pstm.setInt(2,cours.getIdCours());
+            pstm.setInt(3,classe.getSalleParDefault().getIdSalle());
+            pstm.setInt(4,0);
+            pstm.setInt(5,classe.getIdClasse());
+            int n = pstm.executeUpdate();
+            notifyObservers();
+            if(n!=0) return true;
+            else return false;
+        } catch (SQLException e) {
+            System.err.println("erreur sql :"+e);
+            return false;
+        }
+    }
+
+    public boolean modifCours(Classe classe, Cours cours, int heure){
+        String query = "UPDATE APIInfos SET nbreHeures = ? WHERE idCours = ? AND idClasse = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,heure);
+            pstm.setInt(2,cours.getIdCours());
+            pstm.setInt(3,classe.getIdClasse());
+            int n = pstm.executeUpdate();
+            notifyObservers();
+            if(n!=0) return true;
+            else return false;
+        } catch (SQLException e) {
+            System.err.println("erreur sql :"+e);
+            return false;
+        }
+    }
+
+    public boolean modifCours(Classe classe, Cours cours, Enseignant enseignant){
+        String query = "UPDATE APIInfos SET idEnseignant = ? WHERE idCours = ? AND idClasse = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,enseignant.getIdEnseignant());
+            pstm.setInt(2,cours.getIdCours());
+            pstm.setInt(3,classe.getIdClasse());
+            int n = pstm.executeUpdate();
+            notifyObservers();
+            if(n!=0) return true;
+            else return false;
+        } catch (SQLException e) {
+            System.err.println("erreur sql :"+e);
+            return false;
+        }
+    }
+
+    public boolean modifCours(Classe classe, Cours cours, Salle salle){
+        String query = "UPDATE APIInfos SET idSalle = ? WHERE idCours = ? AND idClasse = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,salle.getIdSalle());
+            pstm.setInt(2,cours.getIdCours());
+            pstm.setInt(3,classe.getIdClasse());
+            int n = pstm.executeUpdate();
+            notifyObservers();
+            if(n!=0) return true;
+            else return false;
+        } catch (SQLException e) {
+            System.err.println("erreur sql :"+e);
+            return false;
+        }
+    }
+
+    public boolean suppCours(Classe classe, Cours cours){
+        String query = "DELETE FROM APIInfos WHERE idCours = ? AND idClasse = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1,cours.getIdCours());
+            pstm.setInt(2,classe.getIdClasse());
+            int n = pstm.executeUpdate();
+            notifyObservers();
+            if(n!=0) return true;
+            else return false;
+        } catch (SQLException e) {
+            System.err.println("erreur sql :"+e);
+            return false;
+        }
+    }
+
+
     @Override
     public List getNotification() {
         return getClasses();

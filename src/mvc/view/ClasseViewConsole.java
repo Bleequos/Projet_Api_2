@@ -3,6 +3,7 @@ package mvc.view;
 import Ecole.metier.Classe;
 import Ecole.metier.Salle;
 import mvc.model.DAOSalle;
+import mvc.model.SalleModelDB;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +15,7 @@ import static utilitaires.Utilitaire.*;
 public class ClasseViewConsole extends ClasseAbstractView {
     private Scanner sc = new Scanner(System.in);
 
-    private DAOSalle daoSalle;
+
 
     @Override
     public void affMsg(String msg) {
@@ -52,22 +53,22 @@ public class ClasseViewConsole extends ClasseAbstractView {
     }
 
     private void special(Classe cl) {
-
         do {
-            int ch = choixListe(Arrays.asList("commandes en cours", "factures non payees", "factures en retard", "factures payees", "produits achetés", "menu principal"));
+            int ch = choixListe(Arrays.asList("nombre d'heure totale", "factures non payees", "factures en retard", "factures payees", "produits achetés", "menu principal"));
             if(ch==6) return;
-            List l =   switch (ch) {
-                case 1 ->  classeController.listeEnseignantsEtHeures(cl);
-
-                case 2 ->  classeController.listeSallesetHeures(cl);
-
-                case 3 ->   classeController.listeCoursEtHeures(cl);
-
-                case 4 ->   classeController.listeInfos(cl);
-
-                default -> null;
-              };
-            if(l==null || l.isEmpty()) affMsg("aucun élément trouvée");
+            List l = null;
+            if(ch == 1) {
+                int nbreHeuresTot = classeController.nbreHeuresTot(cl);
+                System.out.println(nbreHeuresTot);
+            } else {
+                l = switch (ch) {
+                    case 2 -> classeController.listeSallesetHeures(cl);
+                    case 3 -> classeController.listeCoursEtHeures(cl);
+                    case 4 -> classeController.listeInfos(cl);
+                    default -> null;
+                };
+            }
+            if(l == null || l.isEmpty()) affMsg("aucun élément trouvée");
             else affList(l);
         } while (true);
     }
@@ -81,9 +82,7 @@ public class ClasseViewConsole extends ClasseAbstractView {
         int annee = Integer.parseInt(modifyIfNotBlank("annee", "" + classe.getAnnee()));
         String specialite= modifyIfNotBlank("specialite", classe.getSpecialite());
         int nbreeleves = Integer.parseInt(modifyIfNotBlank("nombre d'eleve", "" + classe.getNbreEleves()));
-        int idsallepardefault = Integer.parseInt(modifyIfNotBlank("id de la salle par default", "" + classe.getSalleParDefault().getIdSalle()));
-        Salle salleParDefault = daoSalle.readSalle(idsallepardefault);
-        Classe cl =classeController.updateClasse(new Classe(classe.getIdClasse(), sigle, annee, specialite, nbreeleves, salleParDefault));
+        Classe cl =classeController.updateClasse(new Classe(classe.getIdClasse(), sigle, annee, specialite, nbreeleves, classe.getSalleParDefault()));
         if(cl==null) affMsg("mise à jour infructueuse");
         else affMsg("mise à jour effectuée : "+cl);
     }
@@ -116,9 +115,8 @@ public class ClasseViewConsole extends ClasseAbstractView {
         String specialite = sc.nextLine();
         System.out.print("nombre d'élèves : ");
         int nbreeleves = Integer.parseInt(sc.nextLine());
-        System.out.print("id de la salle par default : ");
-        int idsallepardefault = Integer.parseInt(sc.nextLine());
-        Salle salleParDefault = daoSalle.readSalle(idsallepardefault);
+        System.out.print("salle par default : ");
+        Salle salleParDefault = sv.selectionner();
         Classe cl =classeController.addClasse(new Classe(0, sigle, annee, specialite, nbreeleves, salleParDefault));
         if(cl!=null) affMsg("création de :"+cl);
         else affMsg("erreur de création");
