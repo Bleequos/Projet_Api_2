@@ -18,32 +18,38 @@ import static utilitaires.Utilitaire.choixListe;
 
 public class ClasseVueGraph extends ClasseAbstractView {
 
-    private DAOSalle daoSalle;
+
 
     public Classe create() {
-
         JTextField tfsigle = new JTextField();
         JTextField tfannee = new JTextField();
         JTextField tfspecialite = new JTextField();
         JTextField tfnbreeleves = new JTextField();
-        JTextField tfidsallepardefault = new JTextField();
+
+
+        Salle tfsalle = sv.selectionner();
+
+
+
         Object[] message = {
                 "sigle: ", tfsigle,
                 "annee:", tfannee,
                 "specialite:", tfspecialite,
                 "nbreeleves:", tfnbreeleves,
-                "id de la salle par defaut:", tfidsallepardefault
+                "salle par defaut:", tfsalle
         };
 
         int option = JOptionPane.showConfirmDialog(null, message, "nouveau classe", JOptionPane.DEFAULT_OPTION);
-            String sigle = tfsigle.getText().toString();
-            int annee = Integer.parseInt(tfannee.getText().toString());
-            String specialite = tfspecialite.getText().toString();
-            int nbreeleves = Integer.parseInt(tfnbreeleves.getText().toString());
-            int idsallepardefault = Integer.parseInt(tfidsallepardefault.getText().toString());
-            Salle salleParDefault = daoSalle.readSalle(idsallepardefault);
-            Classe newcl = new Classe(0,sigle, annee, specialite, nbreeleves, salleParDefault);
-            return newcl;
+        String sigle = tfsigle.getText().toString();
+        int annee = Integer.parseInt(tfannee.getText().toString());
+        String specialite = tfspecialite.getText().toString();
+        int nbreeleves = Integer.parseInt(tfnbreeleves.getText().toString());
+
+
+        Salle salleParDefault = tfsalle;
+
+        Classe newcl = new Classe(0, sigle, annee, specialite, nbreeleves, salleParDefault);
+        return newcl;
     }
   
 
