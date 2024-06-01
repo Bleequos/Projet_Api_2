@@ -9,4 +9,12 @@ public class EnseignantsEtHeures {
         this.enseignant = enseignant;
         this.nbreHeures = nbreHeures;
     }
+
+    @Override
+    public String toString() {
+        return "EnseignantsEtHeures{" +
+                "enseignant=" + enseignant +
+                ", heures=" + nbreHeures +
+                '}';
+    }
 }

@@ -88,6 +88,26 @@ public class CoursModelDB extends DAOCours {
     }
 
     @Override
+    public List<Cours> getCoursesByClass(Classe cl) {
+        List<Cours> lc = new ArrayList<>();
+        String query = "SELECT c.* FROM APICOURS c JOIN APIInfos i ON c.idCours = i.idCours WHERE i.idClasse = ?";
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, cl.getIdClasse());
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                int idCours = rs.getInt("IDCOURS");
+                String code = rs.getString("CODE");
+                String intitule = rs.getString("INTITULE");
+                Cours cours = new Cours(idCours, code, intitule);
+                lc.add(cours);
+            }
+        } catch (SQLException e) {
+            System.err.println("erreur sql :" + e);
+        }
+        return lc;
+    }
+
+    @Override
     public Cours readCours(int idCours) {
         String query = "SELECT * FROM APICours WHERE IDCOURS = ?";
         try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {

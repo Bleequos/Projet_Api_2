@@ -10,4 +10,12 @@ public class SallesetHeures {
         this.nbreHeures = nbreHeures;
         this.salle = salle;
     }
+
+    @Override
+    public String toString() {
+        return "SallesetHeures{" +
+                "nbreHeures=" + nbreHeures +
+                ", salle=" + salle +
+                '}';
+    }
 }

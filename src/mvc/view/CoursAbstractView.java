@@ -44,4 +44,6 @@ public abstract class CoursAbstractView implements Observer {
 
     public abstract Cours selectionner();
 
+    public abstract Cours selectionnerCours(Classe cl);
+
 }

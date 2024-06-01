@@ -224,6 +224,17 @@ public class CoursViewConsole extends CoursAbstractView {
         return cours;
     }
 
+    public Cours selectionnerCours(Classe cl){
+        List<Cours> lc = coursController.getCoursesByClass(cl);
+        if (lc.isEmpty()) {
+            affMsg("Pas de cours trouver.");
+            return null;
+        }
+        affList(lc);
+        int nl = choixListe(lc);
+        return lc.get(nl - 1);
+    }
+
  }
 
 

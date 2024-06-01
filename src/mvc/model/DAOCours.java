@@ -33,4 +33,6 @@ public abstract class DAOCours extends Subject {
 
     public abstract Cours addCours(Cours cours);
 
+    public abstract List<Cours> getCoursesByClass(Classe cl);
+
 }

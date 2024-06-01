@@ -57,7 +57,7 @@ public class ClasseViewConsole extends ClasseAbstractView {
     private void special(Classe cl) {
         do {
             int ch = choixListe(Arrays.asList("nombre d'heure totale", "Capacité de salle ok ou pas", "Ajouter un cours", "Supprimer un cours", "Modifier un cours(heure)","Modifier un cours(enseignant)", "Modifier un cours(salle)", "Liste des cours et heures", "Liste des enseignants et heures", "Liste des salles et heures", "Liste des infos", "Menu principal"));
-            if(ch == 13) return;
+            if(ch == 12) return;
             int nbreHeuresTot = 0;
             boolean ok = false;
             List l = null;
@@ -67,37 +67,42 @@ public class ClasseViewConsole extends ClasseAbstractView {
                     affMsg(nbreHeuresTot == 0 ? "aucun élément trouvée" : nbreHeuresTot + " heures");
                     break;
                 case 2:
-                    Salle sa = sv.selectionner();
-                    ok = classeController.salleCapaciteOK(cl, sa);
+                    ok = classeController.salleCapaciteOK(cl, cl.getSalleParDefault());
                     affMsg(ok ? "la capacité de cette salle pour les eleves est ok" : "la capacité de cette salle pour les eleves n'est pas ok");
                     break;
                 case 3:
-                    ok = classeController.addCours(cl, cv.selectionner(), ev.selectionner(), cl.nbreHeuresTot());
+                    affMsg("nouveau cours:");
+                    Cours cours = cv.selectionner();
+                    affMsg("nouvel enseignant:");
+                    Enseignant enseignant = ev.selectionner();
+                    affMsg("nombre d'heure:");
+                    int heures= sc.nextInt();
+                    ok = classeController.addCours(cl, cours, enseignant, heures);
                     affMsg(ok ? "Cours ajouté avec succès" : "Erreur lors de l'ajout du cours");
                     break;
                 case 4:
-                    ok = classeController.suppCours(cl, cv.selectionner());
+                    ok = classeController.suppCours(cl, cv.selectionnerCours(cl));
                     affMsg(ok ? "Cours supprimé avec succès" : "Erreur lors de la suppression du cours");
                     break;
                 case 5:
-                    Cours cours=cv.selectionner();
+                    Cours coursv2=cv.selectionnerCours(cl);
                     affMsg("nouvelle heure:");
                     int heure = sc.nextInt();
-                    ok = classeController.modifCours(cl,cours, heure);
+                    ok = classeController.modifCours(cl,coursv2, heure);
                     affMsg(ok ? "Cours modifié avec succès" : "Erreur lors de la modification du cours");
                     break;
                 case 6 :
-                    Cours coursv2=cv.selectionner();
+                    Cours coursv3=cv.selectionnerCours(cl);
                     affMsg("nouvel enseignant:");
-                    Enseignant enseignant=ev.selectionner();
-                    ok = classeController.modifCours(cl,coursv2, enseignant);
+                    Enseignant enseignantv2=ev.selectionner();
+                    ok = classeController.modifCours(cl,coursv3, enseignantv2);
                     affMsg(ok ? "Enseignant modifié avec succès" : "Erreur lors de la modification de l'enseignant");
                     break;
                 case 7:
-                    Cours coursv3=cv.selectionner();
+                    Cours coursv4=cv.selectionnerCours(cl);
                     affMsg("nouvelle salle:");
                     Salle salle = sv.selectionner();
-                    ok = classeController.modifCours(cl,coursv3, salle);
+                    ok = classeController.modifCours(cl,coursv4, salle);
                     affMsg(ok ? "Salle modifiée avec succès" : "Erreur lors de la modification de la salle");
                     break;
                 case 8:
@@ -109,7 +114,7 @@ public class ClasseViewConsole extends ClasseAbstractView {
                         case 8 -> classeController.listeCoursEtHeures(cl);
                         case 9 -> classeController.listeEnseignantsEtHeures(cl);
                         case 10 -> classeController.listeSallesetHeures(cl);
-                        case 11, 12 -> classeController.listeInfos(cl);
+                        case 11 -> classeController.listeInfos(cl);
                         default -> null;
                     };
                     if(l==null || l.isEmpty()) affMsg("aucun élément trouvée");

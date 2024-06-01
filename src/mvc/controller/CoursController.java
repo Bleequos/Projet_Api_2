@@ -18,6 +18,10 @@ public class CoursController {
         this.view.setController(this);
     }
 
+    public List<Cours> getCoursesByClass(Classe cl) {
+        return model.getCoursesByClass(cl);
+    }
+
     public List<Cours> getAll(){
         return model.getCours();
     }

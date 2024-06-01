@@ -9,4 +9,12 @@ public class CoursEtHeures {
         this.nbreHeures = nbreHeures;
         this.cours = cours;
     }
+
+    @Override
+    public String toString() {
+        return "CoursEtHeures{" +
+                "nbreHeures=" + nbreHeures +
+                ", cours=" + cours +
+                '}';
+    }
 }

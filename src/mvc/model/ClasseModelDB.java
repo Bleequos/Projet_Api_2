@@ -158,31 +158,30 @@ public class ClasseModelDB extends  DAOClasse  {
             return null;
         }
     }
-   @Override
-   public List<EnseignantsEtHeures>  listeEnseignantsEtHeures(Classe  classe) {
+    @Override
+    public List<EnseignantsEtHeures> listeEnseignantsEtHeures(Classe classe) {
         List<EnseignantsEtHeures> leh = new ArrayList<>();
         String query = "SELECT e.*, i.nbreHeures FROM APIEnseignant e JOIN APIInfos i ON e.idEnseignant = i.idEnseignant WHERE i.idClasse = ?";
-        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,classe.getIdClasse());
+        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, classe.getIdClasse());
             ResultSet rs = pstm.executeQuery();
-            while(rs.next()){
-                int idEnseignant = rs.getInt(2);
-                String matricule = rs.getString(3);
-                String nom = rs.getString(4);
-                String prenom = rs.getString(5);
-                String tel = rs.getString(6);
-                int chargesem= rs.getInt(7);
-                BigDecimal salaireMensu = BigDecimal.valueOf(rs.getInt(8));
-                LocalDate dateEngagement= rs.getDate(9).toLocalDate();
-                int nbreHeures = rs.getInt(10);
-                Enseignant en = new Enseignant(idEnseignant,matricule,nom,prenom,tel,chargesem,salaireMensu,dateEngagement);
-                EnseignantsEtHeures eh = new EnseignantsEtHeures(en,nbreHeures);
+            while (rs.next()) {
+                int idEnseignant = rs.getInt("idEnseignant");
+                String matricule = rs.getString("matricule");
+                String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");
+                String tel = rs.getString("tel");
+                int chargesem = rs.getInt("chargeSem");
+                BigDecimal salaireMensu = rs.getBigDecimal("salaireMensu");
+                LocalDate dateEngagement = rs.getDate("dateEngag").toLocalDate();
+                int nbreHeures = rs.getInt("nbreHeures");
+                Enseignant en = new Enseignant(idEnseignant, matricule, nom, prenom, tel, chargesem, salaireMensu, dateEngagement);
+                EnseignantsEtHeures eh = new EnseignantsEtHeures(en, nbreHeures);
                 leh.add(eh);
             }
             return leh;
         } catch (SQLException e) {
-            System.err.println("erreur sql :"+e);
-
+            System.err.println("erreur sql :" + e);
             return null;
         }
     }
@@ -217,11 +216,11 @@ public class ClasseModelDB extends  DAOClasse  {
             pstm.setInt(1,classe.getIdClasse());
             ResultSet rs = pstm.executeQuery();
             while(rs.next()){
-                int idCours = rs.getInt(2);
-                String code = rs.getString(3);
-                String intitule = rs.getString(3);
-                Cours cours = new Cours(idCours, code,intitule);
-                int heures = rs.getInt(4);
+                int idCours = rs.getInt("idCours"); // Assuming "idCours" is the column name in your database
+                String code = rs.getString("code"); // Assuming "code" is the column name in your database
+                String intitule = rs.getString("intitule"); // Assuming "intitule" is the column name in your database
+                Cours cours = new Cours(idCours, code, intitule);
+                int heures = rs.getInt("nbreHeures"); // Assuming "nbreHeures" is the column name in your database
                 CoursEtHeures ch = new CoursEtHeures(heures, cours);
                 lch.add(ch);
             }
