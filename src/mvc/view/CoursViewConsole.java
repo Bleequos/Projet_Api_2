@@ -54,6 +54,11 @@ public class CoursViewConsole extends CoursAbstractView {
             switch (ch) {
                 case 1:
                     l = coursController.getListInfos();
+                    if(l == null || l.isEmpty()) {
+                        affMsg("aucun élément trouvée");
+                    } else {
+                        affListe(l);
+                    }
                     break;
                 case 2:
                     affMsg("nouvel enseignant:");
@@ -63,6 +68,11 @@ public class CoursViewConsole extends CoursAbstractView {
                     affMsg("classe:");
                     Classe classe = clv.selectionner();
                     ok = coursController.addCoursInfos(classe, cs, enseignant, heures);
+                    if(!ok) {
+                        affMsg("Echec de l'ajout");
+                    } else {
+                        affMsg("Cours ajouté avec succès    ");
+                    }
                     break;
                 case 3:
                     affMsg("nouvel enseignant:");
@@ -72,22 +82,24 @@ public class CoursViewConsole extends CoursAbstractView {
                     affMsg("classe:");
                     Classe newClasse = clv.selectionner();
                     ok = coursController.ModifierCoursInfos(newClasse, cs, newEnseignant, newHeures);
+                    if(!ok) {
+                        affMsg("Mofification échouée");
+                    } else {
+                        affMsg("Cours modifié avec succès");
+                    }
                     break;
                 case 4:
                     ok = coursController.suppCoursInfos(cs);
+                    if(!ok) {
+                        affMsg("Echec de la suppression");
+                    } else {
+                        affMsg("Cours supprimé avec succès");
+                    }
                     break;
                 case 5:
                     return;
                 default:
                     System.out.println("choix invalide recommencez ");
-            }
-            if(l == null || l.isEmpty()) {
-                affMsg("aucun élément trouvée");
-            } else {
-                affListe(l);
-            }
-            if(!ok) {
-                affMsg("Operation failed");
             }
         } while (true);
     }
