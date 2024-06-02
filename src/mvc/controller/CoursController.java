@@ -37,42 +37,25 @@ public class CoursController {
     public Cours search(int idCours) {
        return  model.readCours(idCours);
     }
-
-    public boolean addEnseignant(Cours cs,int nbreheures,Enseignant ens,Classe cl,Salle sa){
-       return  model.addEnseignant(cs, nbreheures, ens,cl,sa);
-    }
-
-    public boolean modifEnseignant(Cours cs,int nbreheures,Enseignant ens,Classe cl,Salle sa){
-        return model.modifEnseignant(cs, nbreheures, ens,cl,sa);
-    }
-
-    public boolean supEnseignant(Cours cs,Enseignant ens,Classe cl,Salle sa){
-
-        return  model.supEnseignant(cs, ens,cl,sa);
-    }
-
-    public List<Infos> getEnseignants(Cours cs){
-        return model.getEnseignants(cs);
-    }
-
-    public boolean addSalle(Cours cs, int nbreheures, Salle sa, Classe cl, Enseignant ens){
-        return model.addSalle(cs, nbreheures, sa, cl, ens);
-    }
-
-    public boolean modifSalle(Cours cs, int nbreheures, Salle sa, Classe cl, Enseignant ens) {
-        return model.modifSalle(cs, nbreheures, sa, cl, ens);
-    }
-
-    public boolean supSalle(Cours cs, Salle sa, Classe cl, Enseignant ens){
-        return model.supSalle(cs, sa, cl, ens);
-    }
-
-    public List<Infos> getSalles(Cours cs){
-        return model.getSalles(cs);
-    }
-
     public Cours addCours(Cours cs) {
         return model.addCours(cs);
     }
+
+    public List<Infos> getListInfos() {
+        return model.getListInfos();
+    }
+
+    public Boolean addCoursInfos(Classe classe, Cours cours, Enseignant enseignant, int heure){
+        return model.addCoursInfos(classe, cours, enseignant, heure);
+    }
+
+    public Boolean suppCoursInfos(Cours cours){
+        return model.suppCoursInfos(cours);
+    }
+
+    public Boolean ModifierCoursInfos(Classe classe,Cours cours, Enseignant enseignant, int heure){
+        return model.ModifierCoursInfos(classe,cours, enseignant, heure);
+    }
+
 }
 

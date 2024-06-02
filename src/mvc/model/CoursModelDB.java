@@ -148,177 +148,94 @@ public class CoursModelDB extends DAOCours {
     }
 
     @Override
-    public boolean addEnseignant(Cours cs,int nbreheures,Enseignant ens,Classe cl,Salle sa) {
-        String query = "insert into  APIINFOS(nbreheures,idcours,idsalle,idenseignant,idclasse) values(?,?,?,?,?)";
-        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,nbreheures);
-            pstm.setInt(2,cs.getIdCours());
-            pstm.setInt(3,sa.getIdSalle());
-            pstm.setInt(4,ens.getIdEnseignant());
-            pstm.setInt(5,cl.getIdClasse());
-            int n = pstm.executeUpdate();
-            if(n!=0) return true;
-            else return false;
-
-        } catch (SQLException e) {
-             System.err.println("erreur sql :" + e);
-
-            return false;
-        }
+    public List getNotification() {
+        return getCours();
     }
 
-    @Override
-    public boolean modifEnseignant(Cours cs,int nbreheures,Enseignant ens,Classe cl,Salle sa) {
-        String query = "update  APIINFOS set nbreheures = ? where idcours = ? AND idsalle = ? AND idenseignant = ? AND idclasse = ?";
-        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,nbreheures);
-            pstm.setInt(2,cs.getIdCours());
-            pstm.setInt(3,sa.getIdSalle());
-            pstm.setInt(4,ens.getIdEnseignant());
-            pstm.setInt(5,cl.getIdClasse());
-            int n = pstm.executeUpdate();
-            if(n!=0) return true;
-            else return false;
-
-        } catch (SQLException e) {
-            System.err.println("erreur sql :" + e);
-            return false;
-        }
-    }
-
-    @Override
-    public boolean supEnseignant(Cours cs,Enseignant ens,Classe cl,Salle sa) {
-        String query = "DELETE FROM  APIINFOS where  idcours = ? AND idsalle = ? AND idenseignant = ? AND idclasse = ?";
-        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1,cs.getIdCours());
-            pstm.setInt(2,sa.getIdSalle());
-            pstm.setInt(3,ens.getIdEnseignant());
-            pstm.setInt(4,cl.getIdClasse());
-            int n = pstm.executeUpdate();
-            if(n!=0) return true;
-            else return false;
-
-        } catch (SQLException e) {
-            System.err.println("erreur sql :" + e);
-            return false;
-        }
-    }
-
-    @Override
-    public List<Infos> getEnseignants(Cours cs) {
-        String query = "SELECT i.*, e.*, s.* FROM INFOSENSEIGNANT i JOIN APIENSEIGNANT e ON i.IDENSEIGNANT = e.IDENSEIGNANT JOIN APISALLE s ON i.IDSALLE = s.IDSALLE WHERE i.IDCOURS = ?";
+    public List<Infos> getListInfos() {
         List<Infos> li = new ArrayList<>();
-        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1, cs.getIdCours());
-            ResultSet rs = pstm.executeQuery();
+        String query = "SELECT * FROM APIEnseignantSalleCours";
+        try (Statement stm = dbConnect.createStatement()) {
+            ResultSet rs = stm.executeQuery(query);
             while (rs.next()) {
-                int idInfos = rs.getInt("IdInfos");
-                int nbreHeures = rs.getInt("NbHeures");
-                int idSalle = rs.getInt("IdSalle");
-                int idEnseignant = rs.getInt("IdEnseignant");
-                String matricule = rs.getString("Matricule");
-                String nom = rs.getString("Nom");
-                String prenom = rs.getString("Prénom");
-                String tel = rs.getString("Tel");
-                int chargesem = rs.getInt("ChargeSem");
-                BigDecimal salaireMensu = rs.getBigDecimal("SalMensu");
-                LocalDate dateEngagement = rs.getDate("DateEngagement").toLocalDate();
-                String sigle = rs.getString("Sigle");
-                int capacite = rs.getInt("Capacite");
-                Enseignant enseignant = new Enseignant(idEnseignant, matricule, nom, prenom, tel, chargesem, salaireMensu, dateEngagement);
-                Salle salle = new Salle(idSalle, sigle, capacite);
-                Infos infos = new Infos(nbreHeures, cs, salle, enseignant);
-                li.add(infos);
-            }
-        } catch (SQLException e) {
-            System.err.println("erreur sql :" + e);
-        }
-        return li;
-    }
-
-    @Override
-    public boolean addSalle(Cours cs, int nbreheures, Salle sa, Classe cl, Enseignant ens) {
-        String query = "insert into APIINFOS(nbreheures, idcours, idsalle, idenseignant, idclasse) values(?,?,?,?,?)";
-        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1, nbreheures);
-            pstm.setInt(2, cs.getIdCours());
-            pstm.setInt(3, sa.getIdSalle());
-            pstm.setInt(4, ens.getIdEnseignant());
-            pstm.setInt(5, cl.getIdClasse());
-            int n = pstm.executeUpdate();
-            return n != 0;
-        } catch (SQLException e) {
-            System.err.println("erreur sql :" + e);
-            return false;
-        }
-    }
-
-    @Override
-    public boolean modifSalle(Cours cs, int nbreheures, Salle sa, Classe cl, Enseignant ens) {
-        String query = "update APIINFOS set nbreheures = ? where idcours = ? AND idsalle = ? AND idenseignant = ? AND idclasse = ?";
-        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1, nbreheures);
-            pstm.setInt(2, cs.getIdCours());
-            pstm.setInt(3, sa.getIdSalle());
-            pstm.setInt(4, ens.getIdEnseignant());
-            pstm.setInt(5, cl.getIdClasse());
-            int n = pstm.executeUpdate();
-            return n != 0;
-        } catch (SQLException e) {
-            System.err.println("erreur sql :" + e);
-            return false;
-        }
-    }
-
-    @Override
-    public boolean supSalle(Cours cs, Salle sa, Classe cl, Enseignant ens) {
-        String query = "DELETE FROM APIINFOS where idcours = ? AND idsalle = ? AND idenseignant = ? AND idclasse = ?";
-        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1, cs.getIdCours());
-            pstm.setInt(2, sa.getIdSalle());
-            pstm.setInt(3, ens.getIdEnseignant());
-            pstm.setInt(4, cl.getIdClasse());
-            int n = pstm.executeUpdate();
-            return n != 0;
-        } catch (SQLException e) {
-            System.err.println("erreur sql :" + e);
-            return false;
-        }
-    }
-
-    public List<Infos> getSalles(Cours cs) {
-        String query = "SELECT * FROM APIEnseignantSalleCours WHERE IDCOURS = ?";
-        List<Infos> li = new ArrayList<>();
-        try (PreparedStatement pstm = dbConnect.prepareStatement(query)) {
-            pstm.setInt(1, cs.getIdCours());
-            ResultSet rs = pstm.executeQuery();
-            while (rs.next()) {
-                int idInfos = rs.getInt("IDENSEIGNANT");
                 int nbreHeures = rs.getInt("NBREHEURES");
+
+                int idCours = rs.getInt("IDCOURS");
+                String code = rs.getString("CODE");
+                String intitule = rs.getString("INTITULE");
+                Cours cours = new Cours(idCours, code, intitule);
+
                 int idSalle = rs.getInt("IDSALLE");
+                String sigle = rs.getString("SIGLE");
+                int capacite = rs.getInt("CAPACITE");
+                Salle salle = new Salle(idSalle, sigle, capacite);
+
                 int idEnseignant = rs.getInt("IDENSEIGNANT");
                 String matricule = rs.getString("MATRICULE");
                 String nom = rs.getString("NOM");
                 String prenom = rs.getString("PRENOM");
                 String tel = rs.getString("TEL");
-                int chargesem = rs.getInt("CHARGESEM");
+                int chargeSem = rs.getInt("CHARGESEM");
                 BigDecimal salaireMensu = rs.getBigDecimal("SALAIREMENSU");
-                LocalDate dateEngagement = rs.getDate("DATEENGAG").toLocalDate();
-                String sigle = rs.getString("SIGLE");
-                int capacite = rs.getInt("CAPACITE");
-                Enseignant enseignant = new Enseignant(idEnseignant, matricule, nom, prenom, tel, chargesem, salaireMensu, dateEngagement);
-                Salle salle = new Salle(idSalle, sigle, capacite);
-                Infos infos = new Infos(nbreHeures, cs, salle, enseignant);
+                LocalDate dateEngag = rs.getDate("DATEENGAG").toLocalDate();
+                Enseignant enseignant = new Enseignant(idEnseignant, matricule, nom, prenom, tel, chargeSem, salaireMensu, dateEngag);
+
+                Infos infos = new Infos(nbreHeures, cours, salle, enseignant);
                 li.add(infos);
             }
+            return li;
         } catch (SQLException e) {
             System.err.println("erreur sql :" + e);
+            return null;
         }
-        return li;
     }
 
-    @Override
-    public List getNotification() {
-        return getCours();
+    public Boolean addCoursInfos(Classe classe, Cours cours, Enseignant enseignant, int heure){
+        String query = "INSERT INTO APIInfos(nbreHeures, idCours, idSalle, idEnseignant, idClasse) VALUES(?,?,?,?,?)";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, heure);
+            pstm.setInt(2, cours.getIdCours());
+            pstm.setInt(3, classe.getSalleParDefault().getIdSalle());
+            pstm.setInt(4, enseignant.getIdEnseignant()); // Use the idEnseignant from the Enseignant object
+            pstm.setInt(5, classe.getIdClasse());
+            int n = pstm.executeUpdate();
+            notifyObservers();
+            return n != 0;
+        } catch (SQLException e) {
+            System.err.println("erreur sql :"+e);
+            return false;
+        }
     }
+
+public Boolean suppCoursInfos(Cours cours){
+        String query = "DELETE FROM APIInfos WHERE idCours = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, cours.getIdCours());
+            int n = pstm.executeUpdate();
+            notifyObservers();
+            if(n!=0) return true;
+            else return false;
+        } catch (SQLException e) {
+            System.err.println("erreur sql :"+e);
+            return null;
+        }
+    }
+
+    public Boolean ModifierCoursInfos(Classe classe,Cours cours, Enseignant enseignant, int heure){
+        String query = "UPDATE APIInfos SET nbreHeures = ?, idEnseignant = ?, idClasse = ? WHERE idCours = ?";
+        try(PreparedStatement pstm = dbConnect.prepareStatement(query)) {
+            pstm.setInt(1, heure);
+            pstm.setInt(2, enseignant.getIdEnseignant());
+            pstm.setInt(3, classe.getIdClasse());
+            pstm.setInt(4, cours.getIdCours());
+            int n = pstm.executeUpdate();
+            notifyObservers();
+            if(n!=0) return true;
+            else return false;
+        } catch (SQLException e) {
+            System.err.println("erreur sql :"+e);
+            return false;
+        }
+    }
+
 }

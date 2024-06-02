@@ -46,127 +46,54 @@ public class CoursViewConsole extends CoursAbstractView {
         }while(true);
     }
 
-
     private void special(Cours cs) {
         do {
-            int ch = choixListe(Arrays.asList("ajouter enseignant", "modifier enseignant", "supprimer enseignant", "lister enseignant", "ajouter salle", "modifier salle", "supprimer salle", "lister salles", "menu principal"));
-
+            boolean ok = true;
+            List l = null;
+            int ch = choixListe(Arrays.asList("Liste de cours totale", "Ajout du cours(infos)", "Modifier le cours(infos)", "supprimer le cours(infos)", "menu principal"));
             switch (ch) {
                 case 1:
-                    ajouterEnseignant(cs);
+                    l = coursController.getListInfos();
                     break;
                 case 2:
-                    modifierEnseignant(cs);
+                    affMsg("nouvel enseignant:");
+                    Enseignant enseignant = ev.selectionner();
+                    affMsg("nombre d'heure:");
+                    int heures= sc.nextInt();
+                    affMsg("classe:");
+                    Classe classe = clv.selectionner();
+                    ok = coursController.addCoursInfos(classe, cs, enseignant, heures);
                     break;
                 case 3:
-                    supprimerEnseignant(cs);
+                    affMsg("nouvel enseignant:");
+                    Enseignant newEnseignant = ev.selectionner();
+                    affMsg("nombre d'heure:");
+                    int newHeures= sc.nextInt();
+                    affMsg("classe:");
+                    Classe newClasse = clv.selectionner();
+                    ok = coursController.ModifierCoursInfos(newClasse, cs, newEnseignant, newHeures);
                     break;
                 case 4:
-                    listerEnseignants(cs);
+                    ok = coursController.suppCoursInfos(cs);
                     break;
                 case 5:
-                    ajouterSalle(cs);
-                    break;
-                case 6:
-                    modifierSalle(cs);
-                    break;
-                case 7:
-                    supprimerSalle(cs);
-                    break;
-                case 8:
-                    listerSalles(cs);
-                    break;
-                case 9:
                     return;
                 default:
                     System.out.println("choix invalide recommencez ");
             }
+            if(l == null || l.isEmpty()) {
+                affMsg("aucun élément trouvée");
+            } else {
+                affListe(l);
+            }
+            if(!ok) {
+                affMsg("Operation failed");
+            }
         } while (true);
     }
 
-    public void ajouterEnseignant(Cours cs){
-        System.out.println("ajout d'une infos");
-        Enseignant ens = ev.selectionner();
-        Salle sa = sv.selectionner();
-        Classe cl = clv.selectionner();
-        System.out.print("nombre d'heure :");
-        int nbreheures= sc.nextInt();
-        boolean ok = coursController.addEnseignant(cs, nbreheures,ens,cl,sa);
-        if(ok) affMsg("Enseignant ajouté");
-        else affMsg("erreur lors de l'ajout de l'enseignant");
-    }
-
-    private void listerEnseignants(Cours cs) {
-        System.out.println("Enseignants du cours");
-        List<Infos> li = coursController.getEnseignants(cs);
-        if(li.isEmpty()) affMsg("aucune info pour ce cours");
-        else affList(li);
-    }
-
-    private void supprimerEnseignant(Cours cs) {
-        System.out.println("suppression d'une infos");
-        Enseignant ens = ev.selectionner();
-        Salle sa = sv.selectionner();
-        Classe cl = clv.selectionner();
-        boolean ok = coursController.supEnseignant(cs,ens,cl,sa);
-        if(ok) affMsg("info d'enseignant supprimée");
-        else affMsg("info d'enseignant non supprimée");
-    }
 
 
-
-    private void modifierEnseignant(Cours cs) {
-        System.out.println("modification d'une infos");
-        Enseignant ens = ev.selectionner();
-        Salle sa = sv.selectionner();
-        Classe cl = clv.selectionner();
-        System.out.print("nombre d'heure :");
-        int nbreheures= sc.nextInt();
-        boolean ok = coursController.modifEnseignant(cs, nbreheures,ens,cl,sa);
-        if(ok) affMsg("mise à jour effectuée");
-        else  affMsg("mise à jour infructueuse");
-    }
-
-    public void ajouterSalle(Cours cs){
-        System.out.println("ajout d'une salle");
-        Salle sa = sv.selectionner();
-        Enseignant ens = ev.selectionner();
-        Classe cl = clv.selectionner();
-        System.out.print("nombre d'heure :");
-        int nbreheures= sc.nextInt();
-        boolean ok = coursController.addSalle(cs, nbreheures, sa, cl, ens);
-        if(ok) affMsg("Salle ajoutée");
-        else affMsg("erreur lors de l'ajout de la salle");
-    }
-
-    private void listerSalles(Cours cs) {
-        System.out.println("Salles du cours");
-        List<Infos> li = coursController.getSalles(cs);
-        if(li.isEmpty()) affMsg("aucune info pour ce cours");
-        else affList(li);
-    }
-
-    private void supprimerSalle(Cours cs) {
-        System.out.println("suppression d'une salle");
-        Salle sa = sv.selectionner();
-        Enseignant ens = ev.selectionner();
-        Classe cl = clv.selectionner();
-        boolean ok = coursController.supSalle(cs, sa, cl, ens);
-        if(ok) affMsg("info de salle supprimée");
-        else affMsg("info de salle non supprimée");
-    }
-
-    private void modifierSalle(Cours cs) {
-        System.out.println("modification d'une salle");
-        Salle sa = sv.selectionner();
-        Enseignant ens = ev.selectionner();
-        Classe cl = clv.selectionner();
-        System.out.print("nombre d'heure :");
-        int nbreheures= sc.nextInt();
-        boolean ok = coursController.modifSalle(cs, nbreheures, sa, cl, ens);
-        if(ok) affMsg("mise à jour effectuée");
-        else  affMsg("mise à jour infructueuse");
-    }
 
 
 
